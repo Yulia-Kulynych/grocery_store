@@ -9,7 +9,7 @@ class App extends Component {
   constructor (props){
     super (props);
     this.state = {
-
+      ModalVisible: false,
       elementIndexToView:{},
       products: [//массив обьектов - продуктов
         {
@@ -52,45 +52,73 @@ class App extends Component {
 
     }
 
-    //this.handleChange = this.handleChange.blind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.addNewProduct = this.addNewProduct.bind(this);
+    this.onModalClose = this.onModalClose.bind(this);
   }
 
 
-handleChange(event){
+handleChange(event, index, inputName ){
+  let updatedElement={
+  ...this.state.products[index],
+    [inputName]: event.target.value,
+  };
+
+  let updatedProducts = [...this.state.products];
+  updatedProducts[index] = updatedElement;
+
   this.setState({
-    name: event.target.name
-  })
+    ...this.state,
+    products : updatedProducts,
+  });
+}
+
+addNewProduct(product){
+  this.setState({
+    ...this.state,
+    ModalVisible: false,
+    products: [...this.state.products, product],
+
+  }
+  );
+}
+onModalClose(){
+  this.setState({
+    ...this.state,
+    ModalVisible: false,
+    
+  }
+  );
 }
 
 render (){
   return (
     <div className="App">
-
-     <Modal element = {this.state.products[this.state.elementIndexToView]}/> 
+      {this.state.ModalVisible===true ? (
+        <Modal
+        addNewProducts={this.addNewProduct}
+        onModalClose={this.onModalClose}
+        />
+      ): null
+      }
       
       {this.state.products.map(//получаем каждый эелемент - то есть обьект(продукт)
-        (element)=>{
+        (element, index)=>{
           return (
                 <div>
                   <input 
                   value={element.name} 
-                  onChange={this.handleChange}/>
+                  onChange={(event)=>{this.handleChange(event, index, "name")}}/>
 
                   <input value={element.quantity}
-                  onChange= {(event)=>this.setState({
-                    quantity: event.target.quantity}
-                  
-                  )}/>
+                  onChange={(event)=>{this.handleChange(event, index, "quantity")}}/>
                   
                   <input value={element.price}
-                  onChange= {(event)=>this.setState({
-                    price: event.target.price}
-                  )}/>
-                  {console.log(element.price)}
+                  onChange={(event)=>{this.handleChange(event, index, "price")}}/>
+                  
+                  
                   <input value={element.category}
-                  onChange= {(event)=>this.setState({
-                    category: event.target.category}
-                  )}/>
+                  onChange={(event)=>{this.handleChange(event, index, "category")}}/>
                </div>
            )
         }
@@ -109,16 +137,10 @@ render (){
 
     onAdd = {()=>{
       this.setState({ //для модификации
-        products:[...this.state.products,
-          {
-            name: "Buckwheat",
-            quantity: "kilogram",
-            price: 20, 
-            category: "Grain" 
-          }
-         ]
+        ...this.state,
+        ModalVisible: true,
        }
-      )
+      );
     }
   }
      />
