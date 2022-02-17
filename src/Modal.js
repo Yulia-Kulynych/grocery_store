@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { useState} from 'react';
 import './Modal.css';
 
 
-let modalState = {
+let initialModalState = {
     name:'',
     quantity: '',
     price: '',
@@ -11,16 +11,9 @@ let modalState = {
 
 
 export let Modal= (props)=> {
-   // constructor(props){
-   //     super(props);
-        this.state = {
-          name:'',
-          quantity: '',
-          price: '',
-          category: '',
-        };
+   
     
-        let [modalState, setStateModalState] = useState(modalState)
+    let [modalState, setStateModalState] = useState(initialModalState)
         //let [ModalVisible, setModalVisible] = useState(initialState, ModalVisible)
 
         //this.handleChange = this.handleChange.bind(this);
@@ -30,44 +23,44 @@ export let Modal= (props)=> {
 
    let handleChange=(event, inputName )=>{// handleChange(event, inputName ){
     setStateModalState ({//  this.setState({
-        //...this.state,
+        ...modalState,//...this.state,
           [inputName]: event.target.value,
         });
     }
 
     let handleSubmit=(event)=>{ //handleSubmit(event){
         event.preventDefault();
-        this.props.addNewProducts(this.state)
+        props.addNewProducts(modalState,)
     }
 
         //render(){
         return (
             
                 <div className="modal">
-                    <form onSubmit={(e)=>this.handleSubmit(e)}>
+                    <form onSubmit={(e)=>handleSubmit(e)}>
                     <div>
                     <label> Name </label>
                   <input 
-                  value={this.state.name} 
-                  onChange={(event)=>{this.handleChange(event, "name")}}/>
+                  value={modalState.name} 
+                  onChange={(event)=>{handleChange(event, "name")}}/>
                   </div>
                     <div>    
                     <label>Quantity</label>
-                  <input value={this.state.quantity}
-                  onChange={(event)=>{this.handleChange(event, "quantity")}}/>
+                  <input value={modalState.quantity}
+                  onChange={(event)=>{handleChange(event, "quantity")}}/>
                     </div> 
                     <div>  
                     <label> Price </label>
-                  <input value={this.state.price}
-                  onChange={(event)=>{this.handleChange(event,  "price")}}/>
+                  <input value={modalState.price}
+                  onChange={(event)=>{handleChange(event,  "price")}}/>
                     </div>
                     <div>   
                     <label>Category</label>
-                  <input value={this.state.category}
-                  onChange={(event)=>{this.handleChange(event, "category")}}/>
+                  <input value={modalState.category}
+                  onChange={(event)=>{handleChange(event, "category")}}/>
                     </div> 
                   <button type="submit">Save products</button>
-                  <button type="button" onClick={()=>this.props.onModalClose()}>Close</button>
+                  <button type="button" onClick={()=>props.onModalClose()}>Close</button>
                   </form>
                </div>
            
