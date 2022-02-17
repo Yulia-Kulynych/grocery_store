@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
 import './Modal.css';
 
-export class Modal extends Component {
-    constructor(props){
-        super(props);
+
+let modalState = {
+    name:'',
+    quantity: '',
+    price: '',
+    category: '',
+  };
+
+
+export let Modal= (props)=> {
+   // constructor(props){
+   //     super(props);
         this.state = {
           name:'',
           quantity: '',
@@ -11,23 +20,27 @@ export class Modal extends Component {
           category: '',
         };
     
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+        let [modalState, setStateModalState] = useState(modalState)
+        //let [ModalVisible, setModalVisible] = useState(initialState, ModalVisible)
 
-    handleChange(event, inputName ){
-        this.setState({
-        ...this.state,
+        //this.handleChange = this.handleChange.bind(this);
+        //this.handleSubmit = this.handleSubmit.bind(this);
+    
+
+
+   let handleChange=(event, inputName )=>{// handleChange(event, inputName ){
+    setStateModalState ({//  this.setState({
+        //...this.state,
           [inputName]: event.target.value,
         });
     }
 
-        handleSubmit(event){
-            event.preventDefault();
-            this.props.addNewProducts(this.state)
-        }
+    let handleSubmit=(event)=>{ //handleSubmit(event){
+        event.preventDefault();
+        this.props.addNewProducts(this.state)
+    }
 
-        render(){
+        //render(){
         return (
             
                 <div className="modal">
@@ -61,4 +74,4 @@ export class Modal extends Component {
         )
     }
 
-}
+
