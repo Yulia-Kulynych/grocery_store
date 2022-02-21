@@ -1,19 +1,22 @@
 import React, { useState} from 'react';
 import './Modal.css';
+import { v4 as uuidv4 } from "uuid";
 
 
-let initialModalState = {
+const initialModalState = {
     name:'',
     quantity: '',
     price: '',
     category: '',
+    show: true,
+    id: uuidv4(),
   };
 
 
-export let Modal= (props)=> {
+export const Modal= (props)=> {
    
     
-    let [modalState, setStateModalState] = useState(initialModalState)
+    const [modalState, setStateModalState] = useState(initialModalState)
         //let [ModalVisible, setModalVisible] = useState(initialState, ModalVisible)
 
         //this.handleChange = this.handleChange.bind(this);
@@ -21,16 +24,16 @@ export let Modal= (props)=> {
     
 
 
-   let handleChange=(event, inputName )=>{// handleChange(event, inputName ){
+   const handleChange=(event, inputName )=>{// handleChange(event, inputName ){
     setStateModalState ({//  this.setState({
         ...modalState,//...this.state,
           [inputName]: event.target.value,
         });
     }
 
-    let handleSubmit=(event)=>{ //handleSubmit(event){
+    const handleSubmit=(event)=>{ //handleSubmit(event){
         event.preventDefault();
-        props.addNewProducts(modalState,)
+        props.addNewProducts({...modalState, id: uuidv4()})
     }
 
         //render(){
@@ -64,7 +67,7 @@ export let Modal= (props)=> {
                   </form>
                </div>
            
-        )
-    }
+        );
+    };
 
 
